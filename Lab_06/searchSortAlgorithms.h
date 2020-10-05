@@ -1,4 +1,3 @@
-  
 template <class elemType>
 int seqSearch(const elemType list[], int length, const elemType& item)
 {
@@ -67,6 +66,55 @@ void bubbleSort(elemType list[], int length)
 } //end bubbleSort
 
 template <class elemType>
+void bubbleSort(elemType list[], int length, int &comp, int &assign)
+{
+    for (int iteration = 1; iteration < length; iteration++)
+    {
+        for (int index = 0; index < length - iteration; index++)
+        {
+            comp += 1;
+            if (list[index] > list[index + 1])
+            {
+                elemType temp = list[index];
+                list[index] = list[index + 1];
+                list[index + 1] = temp;
+                assign += 3;
+                //one assignment for every assign above
+                //therefore +3.
+            }
+        }
+    }
+} //end of new bubbleSort
+
+template <class elemType>
+void swap(elemType list[], int first, int second)
+{
+    elemType temp;
+    
+    temp = list[first];
+    list[first] = list[second];
+    list[second] = temp;
+} //end swap
+
+template <class elemType>
+int minLocation(elemType list[], int first, int last, int &comp, int &assign)
+{
+    int minIndex;
+
+    minIndex = first;
+
+    for (int loc = first + 1; loc <= last; loc++){
+        comp += 1;
+        if (list[loc] < list[minIndex]) {
+            minIndex = loc;
+            assign += 1;
+        }
+    }
+
+    return minIndex;
+} //end minLocation
+
+template <class elemType>
 void selectionSort(elemType list[], int length)
 {
     int minIndex;
@@ -79,28 +127,16 @@ void selectionSort(elemType list[], int length)
 } //end selectionSort
 
 template <class elemType>
-void swap(elemType list[], int first, int second)
-{
-    elemType temp;
-
-    temp = list[first];
-    list[first] = list[second];
-    list[second] = temp;
-} //end swap
-
-template <class elemType>
-int minLocation(elemType list[], int first, int last)
+void selectionSort(elemType list[], int length, int &comp, int &assign)
 {
     int minIndex;
 
-    minIndex = first;
-
-    for (int loc = first + 1; loc <= last; loc++)
-        if (list[loc] < list[minIndex])
-            minIndex = loc;
-
-    return minIndex;
-} //end minLocation
+    for (int loc = 0; loc < length; loc++)
+    {
+        minIndex = minLocation(list, loc, length - 1, comp, assign);
+        swap(list, loc, minIndex);
+    }
+} //end of new selectionSort
 
 template <class elemType>
 void insertionSort(elemType list[], int length)
@@ -122,6 +158,28 @@ void insertionSort(elemType list[], int length)
             list[location] = temp;
         }
 } //end insertionSort
+
+template <class elemType>
+void insertionSort(elemType list[], int length, int &comp, int &assign)
+{
+    for (int firstOutOfOrder = 1; firstOutOfOrder < length; firstOutOfOrder++) {
+        
+        if (list[firstOutOfOrder] < list[firstOutOfOrder - 1])
+        {
+            elemType temp = list[firstOutOfOrder];
+            int location = firstOutOfOrder;
+            
+            do
+            {
+                list[location] = list[location - 1];
+                location--;
+                assign += 1;
+            } 
+            while(location > 0 && list[location - 1] > temp && comp++);
+            list[location] = temp;
+        }
+    }
+} //end of new insertionSort
 
 template <class elemType>
 void quickSort(elemType list[], int length)
